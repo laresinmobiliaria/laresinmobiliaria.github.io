@@ -77,7 +77,7 @@
   <div>
   <div class="kicker">Propiedad en alquiler · Allen, Río Negro</div>
   <h1>Galpón con patio y frente a calle</h1>
-  <p>Relevamiento aéreo con dron de alta resolución. Explore la propiedad sobre imagen satelital o mapa, mida distancias
+  <p>Relevamiento aéreo con dron de alta resolución. Explore la propiedad sobre imagen satelital, mida distancias
   y superficies, y consulte la altura de las construcciones respecto del terreno.</p>
   </div>
 </header>
@@ -111,7 +111,7 @@
       <div class="bar"></div>
       <div class="ticks"><span>0 m</span><span>4 m</span><span>8 m</span></div>
     </div>
-    <div class="hint" id="hint2d">Use el selector de capas (arriba a la derecha) para cambiar entre imagen satelital y mapa, atenuar el entorno o activar la capa de alturas.
+    <div class="hint" id="hint2d">Use el selector de capas (arriba a la derecha) para atenuar el entorno o activar la capa de alturas.
       Para medir: elija una herramienta, haga clic en el plano para marcar puntos y doble clic para terminar.</div>
   </section>
 
@@ -171,7 +171,7 @@ const outline = L.polygon(DATA.poly, {color:'#ffffff', weight:1.5, opacity:0.8, 
 const lotLine = L.polygon(DATA.lot, {color:'#ffffff', weight:3, fill:false, interactive:false}).addTo(map);
 
 L.control.layers(
-  {'Imagen satelital': sat, 'Mapa': osm},
+  null,
   {'Atenuar entorno': mask, 'Alturas de construcción': hgt},
   {collapsed: window.innerWidth < 640}
 ).addTo(map);
