@@ -158,8 +158,8 @@ document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () =>
 const map = L.map('map', {zoomControl:true, maxZoom:22, doubleClickZoom:false});
 const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
   {maxZoom:22, maxNativeZoom:19, attribution:'Imagen © Esri, Maxar, Earthstar Geographics'});
-const osm = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-  {maxZoom:22, maxNativeZoom:20, subdomains:'abcd', attribution:'© colaboradores de OpenStreetMap · © CARTO'});
+const osm = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+  {maxZoom:22, maxNativeZoom:19, attribution:'Mapa © Esri, HERE, Garmin, © colaboradores de OpenStreetMap'});
 sat.addTo(map);
 
 // dim everything outside the property
