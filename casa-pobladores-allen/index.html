@@ -85,6 +85,10 @@
     .rbtn{font-size:13px;padding:7px 10px;flex:none;white-space:nowrap}
     .rpanel{position:static;max-width:none;min-width:0;margin:0;border:none;border-top:1px solid var(--line);border-radius:0;box-shadow:none;font-size:13px;padding:10px 14px}
     #readout3d{display:none}
+    /* versión simplificada: solo el total (el detalle ya está en las etiquetas del 3D) */
+    .rpanel h4,.rpanel .sub,.rpanel .row.item{display:none}
+    .rpanel .tot{border-top:none;margin-top:0;padding-top:0}
+    .rpanel .note{margin-top:3px;font-size:11px}
     .rlab{font-size:10px} .rlab b{font-size:10.5px} .rlab span{font-size:9.5px}
   }
   footer{max-width:1280px;margin:0 auto;padding:6px 24px 28px;color:var(--muted);font-size:12.5px}
@@ -491,7 +495,7 @@ function refresh(){
   for (const lv of ['PB','PA','GAR']){
     const rs = roomObjs.filter(o => o.grp.visible && o.R.lv===lv); if (!rs.length) continue;
     h += `<div class="sub">${LVN[lv]}</div>`;
-    for (const {R} of rs){ if (lv==='GAR') gar = (gar||0) + R.a; else { tot += R.a; nH++; } h += `<div class="row"><span><i style="background:${catCol[R.c]}"></i>${R.n}</span><span>≈ ${fmt(R.a,0)} m²</span></div>`; }
+    for (const {R} of rs){ if (lv==='GAR') gar = (gar||0) + R.a; else { tot += R.a; nH++; } h += `<div class="row item"><span><i style="background:${catCol[R.c]}"></i>${R.n}</span><span>≈ ${fmt(R.a,0)} m²</span></div>`; }
   }
   if (nH) h += `<div class="row tot"><span>Total vivienda</span><span>≈ ${fmt(tot,0)} m²</span></div>`;
   if (gar !== null && nH) h += `<div class="row"><span>Garage y altillo (aparte)</span><span>≈ ${fmt(gar,0)} m²</span></div>`;
