@@ -97,16 +97,14 @@
 <main>
   <div class="stats">
     <div class="stat"><b id="sA">–</b><span>Superficie aprox. (sujeta a título)</span></div>
-    <div class="stat"><b id="sH">–</b><span>Altura máx. de cortinas aprox.</span></div>
-    <div class="stat"><b>~1 cm</b><span>Resolución de la imagen del dron</span></div>
   </div>
 
   <div class="tabs" role="tablist">
-    <button class="tab" role="tab" aria-selected="true" data-view="v2d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Plano interactivo</button>
-    <button class="tab" role="tab" aria-selected="false" data-view="v3d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>Gemelo digital 3D</button>
+    <button class="tab" role="tab" aria-selected="false" data-view="v2d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>Plano interactivo</button>
+    <button class="tab" role="tab" aria-selected="true" data-view="v3d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg>Gemelo digital 3D</button>
   </div>
 
-  <section class="view" id="v2d">
+  <section class="view" id="v2d" hidden>
     <div class="toolbar">
       <button class="btn" id="bDist">Medir distancia</button>
       <button class="btn" id="bArea">Medir superficie</button>
@@ -128,7 +126,7 @@
       Para medir: elija una herramienta, haga clic en el plano para marcar puntos y doble clic para terminar.</div>
   </section>
 
-  <section class="view" id="v3d" hidden>
+  <section class="view" id="v3d">
     <div id="plot3d"></div>
     <div class="seg3d"><button class="btn" id="b3m">Medir distancia</button><button class="btn" id="b3c">Borrar</button></div>
     <div class="seg3dR"><button class="btn" id="b3l">Ver variedades por cuadro</button></div>
@@ -159,16 +157,15 @@ document.getElementById('logoRD').src = DATA.logos.riodata;
 const fmt = (v, d=1) => v.toLocaleString('es-AR',{minimumFractionDigits:d,maximumFractionDigits:d});
 const b64bytes = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 
-document.getElementById('sH').textContent = fmt(DATA.stats.hmax,1) + ' m';
 document.getElementById('sA').textContent = fmt(DATA.stats.area_ha,1) + ' ha';
 
 /* ---------------- tabs ---------------- */
-let plotReady = false;
+let plotReady = true; window.pending3d = true; let mapFitted = false;
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
   document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x===t));
   document.querySelectorAll('.view').forEach(v => v.hidden = (v.id !== t.dataset.view));
   if (t.dataset.view === 'v3d') { if (!plotReady) { plotReady = true; window.build3d ? window.build3d() : (window.pending3d = true); } else window.resize3d && window.resize3d(); }
-  else map.invalidateSize();
+  else { map.invalidateSize(); if (!mapFitted){ mapFitted = true; map.fitBounds(outline.getBounds(), {padding:[30,30]}); } }
 }));
 
 /* ---------------- 2D map ---------------- */
